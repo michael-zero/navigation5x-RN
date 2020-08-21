@@ -6,9 +6,20 @@ import {createStackNavigator} from '@react-navigation/stack'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {createDrawerNavigator} from '@react-navigation/drawer'
 
+import { AuthContext } from "./src/context";
 import {SignIn, CreateAccount, Home, Search, Search2, Details, Profile, Splash} from './src/Screens'
 
 const AuthStack = createStackNavigator();
+const AuthStackScreen = () => (
+  <AuthStack.Navigator>
+      <AuthStack.Screen name='SignIn' component={SignIn}
+      options={{title: 'Sign In'}}/>
+
+      <AuthStack.Screen name='CreateAccount' component={CreateAccount}
+      options={{title: 'Create Account'}}
+      />
+ </AuthStack.Navigator>
+)
 const Tabs = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
 const SearchStack = createStackNavigator();
@@ -50,9 +61,48 @@ const TabsScreen = () => (
 
 const Drawer = createDrawerNavigator()
 
+const DrawerScreen = () => (
+  <Drawer.Navigator initialRouteName='Profile'>
+    <Drawer.Screen name='Home' component={TabsScreen}/>
+    <Drawer.Screen name='Profile' component={ProfileStackScreen}/>
+  </Drawer.Navigator>
+)
+
+const RootStack = createStackNavigator()
+
+const RootStackScreen = ({userToken}) => (
+  <RootStack.Navigator headerMode='none'>
+    {
+      userToken ? (<RootStack.Screen name='App' component={DrawerScreen} options={{animationEnabled: false}}/>)
+      :
+      (<RootStack.Screen name='Auth' component={AuthStackScreen} options={{animationEnabled: false}}/>) 
+      
+    }
+
+    
+  </RootStack.Navigator>
+)
+
 export default function App() { 
   const [isLoading, setIsLoading] = React.useState(true)
   const [userToken, setUserToken] = React.useState(null)
+
+  const authContext = React.useMemo(() => {
+    return {
+      signIn: () => {
+        setIsLoading(false),
+        setUserToken('asdf')
+      },
+      signUp: () => {
+        setIsLoading(false),
+        setUserToken('asdf')
+      },
+      signOut: () => {
+        setIsLoading(false),
+        setUserToken(null)
+      },
+    }
+  }, []) 
 
   React.useEffect(()=>{
     setTimeout(() => {
@@ -64,28 +114,13 @@ export default function App() {
     return <Splash/>
   }
 
+ 
+
   return (
+  <AuthContext.Provider value={authContext}> 
     <NavigationContainer>
-      {
-        userToken ? (
-          <Drawer.Navigator>
-          <Drawer.Screen name='Home' component={TabsScreen}/>
-          <Drawer.Screen name='Profile' component={ProfileStackScreen}/>
-        </Drawer.Navigator>
-        ) 
-        :
-        (
-          <AuthStack.Navigator>
-              <AuthStack.Screen name='SignIn' component={SignIn}
-              options={{title: 'Sign In'}}/>
-      
-              <AuthStack.Screen name='CreateAccount' component={CreateAccount}
-              options={{title: 'Create Account'}}
-              />
-          </AuthStack.Navigator>
-        )
-      }
-     
+      <RootStackScreen userToken={userToken}/>
     </NavigationContainer>
+    </AuthContext.Provider> 
   );
 }
