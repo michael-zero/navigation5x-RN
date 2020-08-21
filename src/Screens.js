@@ -26,17 +26,13 @@ export const Home = ({ navigation }) => (
     <Text>Master List Screen</Text>
     <Button
       title="React Native by Example"
-      onPress={() =>
-        navigation.push("Details", { name: "React Native by Example " })
-      }
+      onPress={() =>navigation.push('Details', {name: 'Enviando params por rotas'}) }
     />
     <Button
       title="React Native School"
-      onPress={() =>
-        navigation.push("Details", { name: "React Native School" })
-      }
+      onPress={() => navigation.push('Details', {name: 'React Native School'})   }
     />
-    <Button title="Drawer" onPress={() => navigation.toggleDrawer()} />
+    <Button title="Drawer" onPress={() => alert('todo')} />
   </ScreenContainer>
 );
 
@@ -50,14 +46,14 @@ export const Details = ({ route }) => (
 export const Search = ({ navigation }) => (
   <ScreenContainer>
     <Text>Search Screen</Text>
-    <Button title="Search 2" onPress={() => navigation.push("Search2")} />
+    <Button title="Search 2" onPress={() => navigation.push('Search2')} />
     <Button
       title="React Native School"
       onPress={() => {
         navigation.navigate("Home", {
           screen: "Details",
-          params: { name: "React Native School" }
-        });
+          params: {name: 'Navegando entre pilhas diferentes'}
+        })
       }}
     />
   </ScreenContainer>
@@ -75,8 +71,8 @@ export const Profile = ({ navigation }) => {
   return (
     <ScreenContainer>
       <Text>Profile Screen</Text>
-      <Button title="Drawer" onPress={() => navigation.toggleDrawer()} />
-      <Button title="Sign Out" onPress={() => signOut()} />
+      <Button title="Drawer" onPress={() => alert('todo')} />
+      <Button title="Sign Out" onPress={() => alert('todo')} />
     </ScreenContainer>
   );
 };
@@ -96,7 +92,7 @@ export const SignIn = ({ navigation }) => {
       <Button title="Sign In" onPress={() => alert('todo')} />
       <Button
         title="Create Account"
-        onPress={() => alert('todo')}
+        onPress={() => navigation.push('CreateAccount')}
       />
     </ScreenContainer>
   );
