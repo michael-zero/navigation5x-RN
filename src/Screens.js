@@ -32,7 +32,7 @@ export const Home = ({ navigation }) => (
       title="React Native School"
       onPress={() => navigation.push('Details', {name: 'React Native School'})   }
     />
-    <Button title="Drawer" onPress={() => alert('todo')} />
+    <Button title="Drawer" onPress={() => navigation.toggleDrawer()} />
   </ScreenContainer>
 );
 
@@ -71,7 +71,7 @@ export const Profile = ({ navigation }) => {
   return (
     <ScreenContainer>
       <Text>Profile Screen</Text>
-      <Button title="Drawer" onPress={() => alert('todo')} />
+      <Button title="Drawer" onPress={() =>  navigation.toggleDrawer()} />
       <Button title="Sign Out" onPress={() => alert('todo')} />
     </ScreenContainer>
   );
